@@ -7,7 +7,9 @@ import java.awt.FlowLayout;
 import java.awt.event.ComponentAdapter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.*;
+import java.net.ProtocolException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,6 +50,64 @@ public class UI extends JFrame
                 userid = userID.getText();
                 userPassword = userPass.getText();
                 userpcname = userCompName.getText();
+                InetAddress ip;
+                try
+                {
+                    ip = InetAddress.getLocalHost();
+                    NetworkInterface network = NetworkInterface.getByInetAddress(ip);
+                    byte[] mac = network.getHardwareAddress();
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < mac.length; i++) {
+                        sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
+                    }
+                    usermac = sb.toString();
+                    //Establishing the connection
+                    URL url = new URL("http://nisarg.me:1337/pcauth");
+                    URLConnection con = url.openConnection();
+                    HttpURLConnection http = (HttpURLConnection)con;
+                    http.setRequestMethod("POST"); // PUT is another valid option
+                    http.setDoOutput(true);
+                    //JOptionPane.showMessageDialog(null, "Success");
+
+                    Map<String,String> arguments = new HashMap<>();
+                    arguments.put("username", userid);
+                    arguments.put("password", userPassword);
+                    arguments.put("mac", usermac);
+                    arguments.put("title", userpcname);
+                    StringJoiner sj = new StringJoiner("&");
+                    for(Map.Entry<String,String> entry : arguments.entrySet())
+                        sj.add(URLEncoder.encode(entry.getKey(), "UTF-8") + "="
+                                + URLEncoder.encode(entry.getValue(), "UTF-8"));
+                    byte[] out = sj.toString().getBytes(StandardCharsets.UTF_8);
+                    int length = out.length;
+
+
+                    //getting from server
+                    http.setFixedLengthStreamingMode(length);
+                    http.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+                    http.connect();
+                    try(OutputStream os = http.getOutputStream())
+                    {
+                        os.write(out);
+                        System.out.println(out);
+                    }
+                }
+                catch (UnknownHostException e1)
+                {
+                    e1.printStackTrace();
+                }
+                catch(SocketException e1)
+                {
+                    e1.printStackTrace();
+                } catch (UnsupportedEncodingException e1) {
+                    e1.printStackTrace();
+                } catch (ProtocolException e1) {
+                    e1.printStackTrace();
+                } catch (MalformedURLException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
         panel.addComponentListener(new ComponentAdapter() {
@@ -74,55 +134,9 @@ public class UI extends JFrame
         //Get the mac address from the machine
         //Stores in String sb
         //printStackTrace in case not found
-        InetAddress ip;
-        try
-        {
-            ip = InetAddress.getLocalHost();
-            NetworkInterface network = NetworkInterface.getByInetAddress(ip);
-            byte[] mac = network.getHardwareAddress();
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < mac.length; i++) {
-                sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
-            }
-            usermac = sb.toString();
-        }
-        catch (UnknownHostException e)
-        {
-            e.printStackTrace();
-        }
-        catch(SocketException e)
-        {
-            e.printStackTrace();
-        }
-
-        //Establishing the connection
-        URL url = new URL("http://nisarg.me:1337/pcauth");
-        URLConnection con = url.openConnection();
-        HttpURLConnection http = (HttpURLConnection)con;
-        http.setRequestMethod("POST"); // PUT is another valid option
-        http.setDoOutput(true);
-        //JOptionPane.showMessageDialog(null, "Success");
-
-        Map<String,String> arguments = new HashMap<>();
-        arguments.put("username", userid);
-        arguments.put("password", userPassword);
-        arguments.put("mac", usermac);
-        arguments.put("title", userpcname);
-        StringJoiner sj = new StringJoiner("&");
-        for(Map.Entry<String,String> entry : arguments.entrySet())
-            sj.add(URLEncoder.encode(entry.getKey(), "UTF-8") + "="
-                    + URLEncoder.encode(entry.getValue(), "UTF-8"));
-        byte[] out = sj.toString().getBytes(StandardCharsets.UTF_8);
-        int length = out.length;
 
 
-        //getting from server
-        http.setFixedLengthStreamingMode(length);
-        http.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-        http.connect();
-        try(OutputStream os = http.getOutputStream()) {
-            os.write(out);
-        }
+
     }
 
 }
