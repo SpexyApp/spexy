@@ -1,0 +1,38 @@
+*{
+	transition: all 0.5s linear;
+}
+
+.header{
+	width: 100%;
+	text-align: center;
+	color: #f0f0f0;
+	
+} 
+
+.header h1{
+    font-size: 6em;
+	font-family: 'Quicksand', sans-serif;
+	font-weight: 100;
+}
+
+.headTitle{
+	font-family: 'Quicksand', sans-serif;
+	font-weight: 100;
+}
+
+.loginBox{
+	margin-left: auto;
+	margin-right: auto;
+	padding: 1em 0 2em 0;
+}
+
+.tag{
+	color: #f0f0f0;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 6em;
+}
+
+.tag h3{
+	font-family: 'Raleway', sans-serif;
+}
