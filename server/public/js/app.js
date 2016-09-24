@@ -14,7 +14,7 @@
 		}
   }]);
   
-  app.controller('formController', ['$scope','$http','$window',function($scope,$http){
+  app.controller('formController', ['$scope','$http',function($scope,$http){
 		$scope.status = "Submit";
 		$scope.success = false;
 		$scope.register = false;
@@ -33,7 +33,7 @@
                     if(data.success == true){
 					    $scope.status = "Submit";
 					    $scope.success = true;
-						$window.location.href = '/';
+						document.location.href = '/';
 				    }
 				    else{
 					    $scope.status = "Try Again";
