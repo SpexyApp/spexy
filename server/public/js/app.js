@@ -2,6 +2,7 @@
   var app = angular.module('spexy', ['chart.js']);
  
   
+  
   app.controller('homeController',['$scope', function($scope){
 	    $scope.homeTxt = "Login";
 	  
@@ -12,6 +13,8 @@
 		this.loginOn = function(){
 			$scope.homeTxt = "Login";
 		}
+		
+		
   }]);
   
   app.controller('formController', ['$scope','$http','$window',function($scope,$http,$window){
@@ -54,10 +57,56 @@
 		
 	}]);
 	
+	app.config(function (ChartJsProvider) {
+	    // Configure all charts
+	    ChartJsProvider.setOptions({
+	      colors: ['#97BBCD', '#DCDCDC', '#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360']
+	    });
+	    // Configure all doughnut charts
+	    ChartJsProvider.setOptions('doughnut', {
+	      cutoutPercentage: 60
+	    });
+	    
+	  });
+	  
+	app.controller("LineCtrl", function ($scope) {
+
+	  $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+	  $scope.series = ['Series A', 'Series B'];
+	  $scope.data = [
+	    [65, 59, 80, 81, 56, 55, 40],
+	    [28, 48, 40, 19, 86, 27, 90]
+	  ];
+	  $scope.onClick = function (points, evt) {
+	    console.log(points, evt);
+	  };
+	  $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
+	  $scope.options = {
+	    scales: {
+	      yAxes: [
+	        {
+	          id: 'y-axis-1',
+	          type: 'linear',
+	          display: true,
+	          position: 'left'
+	        },
+	        {
+	          id: 'y-axis-2',
+	          type: 'linear',
+	          display: true,
+	          position: 'right'
+	        }
+	      ]
+	    }
+	  };
+	});
+	
 	app.controller('DoughnutCtrl', ['$scope', function ($scope) {
-	  $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
-	  $scope.data = [300, 500, 100];
+	    $scope.labels = ['Used', 'Free'];
+	    $scope.data = [300, 500];
+	    
+
 	}]);
 
-  })();
+ })();
 

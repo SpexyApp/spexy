@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html lang="en">
+<html lang="en" ng-app="spexy">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,7 +40,7 @@
     <script type="text/javascript">
 new WOW().init();
     </script>
- <script src="js/Chart.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.js"></script>
     <script type="text/javascript" src="js/angular.min.js">
 </script>
     <script src="js/angular-chart.min.js"></script>
@@ -121,9 +121,13 @@ new WOW().init();
       <main class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid demo-content">
           <div class="demo-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid" ng-controller="DoughnutCtrl">
-            <canvas id="doughnut" class="chart chart-doughnut" chart-data="data" chart-labels="labels" >
-			</canvas> 
-            
+            	<div class="mdl-cell--3-col">
+	              <canvas id="doughnut" class="chart chart-doughnut"
+					  chart-data="data" chart-labels="labels">
+					</canvas> 
+            	</div>
+            	
+	                       
           </div>
           <div class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col" ng-controller="LineCtrl">
              <canvas id="line" class="chart chart-line" chart-data="data"
