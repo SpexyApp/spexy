@@ -14,7 +14,7 @@
 		}
   }]);
   
-  app.controller('formController', ['$scope','$http',function($scope,$http){
+  app.controller('formController', ['$scope','$http','$window',function($scope,$http){
 		$scope.status = "Submit";
 		$scope.success = false;
 		$scope.register = false;
@@ -26,18 +26,22 @@
 
 		this.submitForm = function(){
 			$scope.status = "Submitting...";
-			$http.post('http://nisarg.me/auth', $scope.auth).
-                        success(function(data, status) {
-                            if(data.success === true){
-							    $scope.status = "Submit";
-							    $scope.success = true;
-								console.log("OK", data);
-						    }
-						    else{
-							    $scope.status = "Try Again";
-								console.log(data);
-						    }
-                        })
+			$http.post('/auth', $scope.auth).
+                success(function(data, status) {
+                    if(data.success === true){
+					    $scope.status = "Submit";
+					    $scope.success = true;
+						$window.location.href = '/';
+				    }
+				    else{
+					    $scope.status = "Try Again";
+					    alert(data);
+						console.log(data);
+				    }
+				})
+				.error(function(data, status, headers, config) {
+					alert( "failure message: " + JSON.stringify({data: data}));
+				});
 		
 	
 		};
