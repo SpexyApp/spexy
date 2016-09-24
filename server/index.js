@@ -61,7 +61,7 @@ app.post('/auth', function(req, res) {
   var username = req.body.username;
   var password = req.body.password;
   auth.loginUser(username,password,req,function(msg){
-    res.send(msg);
+    res.end(msg);
   });
 });
 

@@ -40,6 +40,10 @@ function registerUser(username,password,successCallback,failCallback)
 //logs a user into the web interface with a session token
 function loginUser(username,password,req,callback)
 {
+  var resultData = {
+    success: false,
+    message: "Unknown error."
+  }
   if(password && username)
   {
     var userData = db.where("users","username",username,function(result) {
@@ -48,19 +52,22 @@ function loginUser(username,password,req,callback)
         if(pw.verify(password,result[0].password))
         {
           req.session.user = result[0].username;
-          callback("success");
+          resultData.success = true;
+          resultData.message = "";
         }
         else {
-          callback("Error: Invalid Password");
+          resultData.message = "Invalid password.";
         }
       }
       else {
-        callback("Error: User does not exist");
+        resultData.message = "User does not exist.";
       }
+      callback(JSON.stringify(resultData));
     });
   }
   else {
-    callback("Error: please enter a username and password");
+    resultData.message = "Please fill out the form entirely.";
+    callback(JSON.stringify(resultData));
   }
 
 }
