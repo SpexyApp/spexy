@@ -28,9 +28,9 @@
 
 		this.submitForm = function(){
 			$scope.status = "Submitting...";
-			$http.post('/auth', subData).
+			$http.post('/auth', $scope.auth).
                 success(function(data, status) {
-                    if(data.success === true){
+                    if(data.success == true){
 					    $scope.status = "Submit";
 					    $scope.success = true;
 						$window.location.href = '/';
@@ -44,6 +44,8 @@
 				.error(function(data, status, headers, config) {
 					alert( "failure message: " + JSON.stringify({data: data}));
 				});
+				
+			
 		
 	
 		};
