@@ -75,6 +75,10 @@ function loginUser(username,password,req,callback)
 //authenticates a computer and returns a computer token
 function authenticateComputer(username,password,title,mac,callback)
 {
+  var resultData = {
+    success: false,
+    message: "An error occured. Please make sure you have entered all of your registration information correctly."
+  }
   var userData = db.where("users","username",username,function(result) {
     if(result != null)
     {
