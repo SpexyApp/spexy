@@ -1,0 +1,33 @@
+{
+	"KBsent": 181035.765,
+	"cpu name": "Intel(R) Core(TM) i5-6300HQ CPU @ 2.30GHz",
+	"cpu core info": {
+		"core0": 25.0,
+		"core2": 40.6,
+		"core3": 25.0,
+		"core1": 6.2
+	},
+	"availmem": 3.925,
+	"disk1": {
+		"mtpoint": "D:\\",
+		"totspace": 0.484,
+		"freespace": 0.444,
+		"device": "D:\\",
+		"fsystem": "FAT32",
+		"usedspace": 0.04
+	},
+	"KBrecv": 3958071.356,
+	"phypro": 4,
+	"disk0": {
+		"mtpoint": "C:\\",
+		"totspace": 919.281,
+		"freespace": 713.997,
+		"device": "C:\\",
+		"fsystem": "NTFS",
+		"usedspace": 205.285
+	},
+	"totmem": 7.827,
+	"logpro": 4,
+	"os": ["nt", "Windows"],
+	"permem": 49.9
+}

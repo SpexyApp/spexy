@@ -708,7 +708,7 @@ _:-ms-input-placeholder, :root .demo-graph {
   padding: 0;
 }
 .demo-cards h3 {
-  font-size: 1em;
+  /*font-size: 1em;*/
 }
 .demo-updates .mdl-card__title {
   min-height: 200px;
