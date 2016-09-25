@@ -49,6 +49,13 @@ new WOW().init();
 </script>
     <script type="text/javascript" src="js/app.js">
 </script>
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+$(document).ready ( function(){
+    socket.emit("registerMacListener","testmac");
+});​
+</script>
 
     <style>
     #view-source {

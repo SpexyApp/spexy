@@ -13,6 +13,13 @@
 	app.controller('DashController', ['$scope', '$http', function($scope, $http) {
 		$scope.screen = 0;
 		$scope.data = [];
+		
+		$http.get('/getMac').then(function(res){
+			socket.emit("registerMacListener",res.data);
+			console.log(res);
+		});
+		
+		
 		$http.get('data.json').then(function(res) {
 			for (var i = 0; i < res.data.length; i++) {
 				data.push(res.data[i]);
@@ -170,7 +177,7 @@
 		$scope.top = [];
 		$http.get('proc.json').then(function(res) {
 			data = res.data;
-			console.log(data);
+			//console.log(data);
 			data = sortByKey(data, "memPerc");
 			for (var i = 0; i < res.data.length && i < 10; i++) {
 				$scope.labels.push(data[i].name);
