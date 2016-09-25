@@ -53,10 +53,12 @@ public class UI extends JFrame {
                     NetworkInterface network = NetworkInterface.getByInetAddress(ip);
                     byte[] mac = network.getHardwareAddress();
                     StringBuilder sb = new StringBuilder();
-                    for (int i = 0; i < mac.length; i++) {
-                        sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
+                    for (int i = 0; i < mac.length; i++)
+                    {
+                        sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "" : ""));
                     }
                     usermac = sb.toString();
+                    //JOptionPane.showMessageDialog(null, usermac);
                     //Establishing the connection
                     URL url = new URL("http://nisarg.me:1337/pcauth");
                     URLConnection con = url.openConnection();
@@ -109,17 +111,21 @@ public class UI extends JFrame {
                             System.out.println("catch5");
                             **/
                             String fileURL = "https://github.com/SpexyApp/spexy/tree/master/spexy";
-                            final Path p = Paths.get("C://Program Files//Test");
-                            if (p.toFile().mkdirs()){
-                                try {
+                            final Path p = Paths.get("C://Program Files//Spexy");
+                            //if (p.toFile().mkdirs()){
+                                try
+                                {
                                     HTTPDownloadutility.downloadFile(fileURL, p.toAbsolutePath().toString());
+                                    //File file = new File("C://Program Files//Spexy");
+                                    PrintWriter writer = new PrintWriter("C://Program Files//Spexy//macaddress.txt", "UTF-8");
+                                    writer.println(usermac);
+                                    writer.close();
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
                                 }
-                                
-                            } else {
-                                throw new RuntimeException("Error");
-                            }
+                            //} else {
+                              //  throw new RuntimeException("Error");
+                            //}
                         }
                     }
                     in.close();
