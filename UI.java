@@ -1,28 +1,20 @@
 package com.combined;
 
+import JavaUI.HTTPDownloadutility;
 import org.apache.commons.io.FileUtils;
 import javax.swing.*;
-import javax.swing.filechooser.FileSystemView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.FlowLayout;
 import java.awt.event.ComponentAdapter;
 import java.io.*;
 import java.net.*;
 import java.net.ProtocolException;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.StringJoiner;
-import com.sun.deploy.net.HttpResponse;
-import org.apache.commons.httpclient.URI;
-import org.json.*;
-import org.apache.commons.httpclient.*;
-import org.omg.CORBA.Request;
-import sun.misc.IOUtils;
+import java.io.IOException;
+
 
 /**
  * Created by Utkarsh on 9/24/2016.
@@ -49,7 +41,6 @@ public class UI extends JFrame
     {
         signin.addActionListener(new ActionListener()
         {
-
             @Override
             public void actionPerformed(ActionEvent e)
             {
@@ -63,7 +54,8 @@ public class UI extends JFrame
                     NetworkInterface network = NetworkInterface.getByInetAddress(ip);
                     byte[] mac = network.getHardwareAddress();
                     StringBuilder sb = new StringBuilder();
-                    for (int i = 0; i < mac.length; i++) {
+                    for (int i = 0; i < mac.length; i++)
+                    {
                         sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
                     }
                     usermac = sb.toString();
@@ -73,7 +65,6 @@ public class UI extends JFrame
                     HttpURLConnection http = (HttpURLConnection)con;
                     http.setRequestMethod("POST"); // PUT is another valid option
                     http.setDoOutput(true);
-                    //JOptionPane.showMessageDialog(null, "Success");
 
                     Map<String,String> arguments = new HashMap<>();
                     arguments.put("username", userid);
@@ -85,7 +76,6 @@ public class UI extends JFrame
                         sj.add(URLEncoder.encode(entry.getKey(), "UTF-8") + "="
                                 + URLEncoder.encode(entry.getValue(), "UTF-8"));
                     byte[] out = sj.toString().getBytes(StandardCharsets.UTF_8);
-                    //String str = sj.toString();
                     int length = out.length;
 
                     //getting success/fail lead from server
@@ -112,18 +102,28 @@ public class UI extends JFrame
                         }
                         else
                         {
+                            //File downloads = new File("C://Program Files");
+                           /* System.out.println("catch1");
                             URL urlurl = new URL("https://github.com/SpexyApp/spexy/tree/master/spexy");
+                            System.out.println("catch2");
                             String path = urlurl.toString();
+                            System.out.println("catch3");
                             File file = new File(path);
-                            FileUtils.copyURLToFile(url, file);
+                            System.out.println("catch4");
+                            //FileUtils.copyURLToFile(urlurl, new File(downloads, "file.xls"));
+                            FileUtils.copyURLToFile(urlurl, file);
+                            System.out.println("catch5");
+                            **/
+                            String fileURL = "https://github.com/SpexyApp/spexy/tree/master/spexy";
+                            String saveDir = "C://Program Files";
+                            try {
+                                HTTPDownloadutility.downloadFile(fileURL, saveDir);
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
                         }
                     }
                     in.close();
-
-                    if(true)
-                    {
-
-                    }
                 }
                 catch (UnknownHostException e1)
                 {
