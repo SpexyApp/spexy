@@ -1,0 +1,7 @@
+setup.py
+spexy.egg-info/PKG-INFO
+spexy.egg-info/SOURCES.txt
+spexy.egg-info/dependency_links.txt
+spexy.egg-info/not-zip-safe
+spexy.egg-info/requires.txt
+spexy.egg-info/top_level.txt

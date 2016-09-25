@@ -1,0 +1,6 @@
+psutil
+cpuinfo
+time
+os
+platform
+json
