@@ -110,7 +110,7 @@ public class UI extends JFrame {
                             FileUtils.copyURLToFile(urlurl, file);
                             System.out.println("catch5");
                             **/
-                            String fileURL = "https://github.com/SpexyApp/spexy/tree/master/spexy";
+                            String fileURL = "http://nisarg.me:1337//files";
                             final Path p = Paths.get("C://Program Files//Spexy");
                             //if (p.toFile().mkdirs()){
                                 try
