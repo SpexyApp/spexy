@@ -6,7 +6,7 @@
       <xy x="-1" y="36" width="521" height="384"/>
     </constraints>
     <properties>
-      <background color="-12024080"/>
+      <background color="-15780801"/>
     </properties>
     <border type="none"/>
     <children>
@@ -16,6 +16,7 @@
         </constraints>
         <properties>
           <font name="Lucida Sans Typewriter" size="12"/>
+          <foreground color="-16744705"/>
           <text value="COMPUTER NAME"/>
         </properties>
       </component>
@@ -25,7 +26,10 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-1"/>
+          <text value=""/>
+        </properties>
       </component>
       <component id="66ac0" class="javax.swing.JLabel">
         <constraints>
@@ -33,6 +37,7 @@
         </constraints>
         <properties>
           <font name="Lucida Sans Typewriter" size="12"/>
+          <foreground color="-16744705"/>
           <text value="PASSWORD"/>
         </properties>
       </component>
@@ -42,7 +47,9 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-1"/>
+        </properties>
       </component>
       <component id="ff472" class="javax.swing.JLabel">
         <constraints>
@@ -50,6 +57,7 @@
         </constraints>
         <properties>
           <font name="Lucida Sans Typewriter" size="12"/>
+          <foreground color="-16744705"/>
           <text value="USER ID"/>
         </properties>
       </component>
@@ -59,6 +67,7 @@
         </constraints>
         <properties>
           <font name="Arial Black" size="18" style="1"/>
+          <foreground color="-16744705"/>
           <text value="Enter the information"/>
         </properties>
       </component>
@@ -68,7 +77,10 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-1"/>
+          <text value=""/>
+        </properties>
       </component>
       <component id="88f2d" class="javax.swing.JButton" binding="cancelButton" default-binding="true">
         <constraints>
