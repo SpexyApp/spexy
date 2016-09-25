@@ -7,6 +7,7 @@ module.exports.initializeDB = initializeDB;
 module.exports.checkExists = checkExists;
 module.exports.insert = insert;
 module.exports.where = where;
+module.exports.selectAll = selectAll;
 
 var connection;
 
@@ -47,6 +48,7 @@ function insert(table,data,successCallback,failCallback)
   connection.query('INSERT INTO ' + table + ' SET ?', data, function(error, result) {
     if(error) {
       console.log(error);
+      console.log("error");
       failCallback();
     }
     else successCallback();
@@ -80,4 +82,21 @@ function where(table,key,value,resultCallback)
     }
   });
 
+}
+
+function selectAll(table,resultCallback)
+{
+  var queryString = "SELECT * FROM " + table;
+  connection.query(queryString, function(err, rows, fields) {
+    if (err) throw err;
+    console.log(JSON.stringify(rows));
+    if(rows.length > 0)
+    {
+      resultCallback(rows);
+    }
+    else
+    {
+      resultCallback(null);
+    }
+  });
 }

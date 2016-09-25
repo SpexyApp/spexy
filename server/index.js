@@ -6,6 +6,9 @@
 
 var express = require('express');
 var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+var socketHandler = require('./socket');
 var bodyParser = require('body-parser');
 var db = require('./db');
 var fs = require("fs");
@@ -44,6 +47,8 @@ app.use(function (req, res, next) {
     next();
 });
 
+socketHandler.socketIOinit(io);
+
 app.get('/', function (req, res) {
   if(req.session.user != null)
   {
@@ -55,6 +60,31 @@ app.get('/', function (req, res) {
   }
 });
 
+app.post('/sendinfo/:mac', function(req, res) {
+  res.send("json");
+  socketHandler.onEventFromDesktop("status",parseIncomingJSONFromDesktop(req.body),req.params.mac);
+});
+
+app.post('/sendtasks/:mac', function(req, res) {
+  res.send("json");
+  socketHandler.onEventFromDesktop("tasks",parseIncomingJSONFromDesktop(req.body),req.params.mac);
+});
+
+function parseIncomingJSONFromDesktop(rawjson)
+{
+  console.log("JSON Payload");
+  var innerJSON = rawjson.json_payload;
+  return innerJSON;
+}
+
+app.get('/test', function(req, res) {
+  res.sendFile(path + "/sockettest.html");
+});
+
+app.get('/getpcs', function(req, res){
+
+});
+
 app.get('/css/:file', function (req, res) { sendFolder("css",req,res); });
 app.get('/images/:file', function (req, res) { sendFolder("images",req,res); });
 app.get('/js/:file', function (req, res) { sendFolder("js",req,res); });
@@ -63,7 +93,6 @@ function sendFolder(folder,req,res)
 {
   var fileId = req.params.file;
   var file = publicPath + folder + "/" + fileId;
-  console.log(file);
   if(fs.existsSync(file))
   {
     res.sendFile(file);
@@ -86,11 +115,12 @@ app.post('/register', function(req, res) {
     });
 });
 
-app.post('/pcauth', function(req, res) {
-  var username = req.body.username;
-  var password = req.body.password;
-  var mac = req.body.mac;
-  var title = req.body.title;
+app.get('/pcauth/:username/:password/:mac/:title', function(req, res) {
+  var username = req.params.username;
+  console.log("username: " + username);
+  var password = req.params.password;
+  var mac = req.params.mac;
+  var title = req.params.title;
   auth.authenticateComputer(username,password,title,mac,function(msg){
     res.send(msg);
   });
@@ -110,6 +140,6 @@ app.get('/signout', function(req, res) {
   res.redirect('/');
 });
 
-app.listen(1337, function () {
+var expserv = http.listen(1337, function () {
   console.log('Spexy Server!');
 });

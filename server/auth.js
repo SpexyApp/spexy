@@ -92,24 +92,36 @@ function authenticateComputer(username,password,title,mac,callback)
             token: pctoken,
             userId: result[0].id
           };
+          console.log("computer info:");
           console.log(JSON.stringify(computerInfo));
           db.insert("computers",computerInfo,function(){
-            callback("success: " + pctoken);
+            callback(true);
           },function(){
-            callback("error");
+            callback(false);
           });
         }, function() {
           db.where("computers","mac",mac,function(result) {
-            callback("success: " + result[0].token);
+            callback(true);
           });
         })
       }
       else {
-        callback("pwerror");
+        callback(false);
       }
     }
     else {
-      callback("error");
+      callback(false);
     }
   });
+}
+
+function getUserComputers(req,res)
+{
+  if(req.session.user != null)
+  {
+    res.send()
+  }
+  else {
+    res.send("error");
+  }
 }
