@@ -91,11 +91,11 @@ new WOW().init();
         <div class="demo-blog__posts mdl-grid">
             <div class="mdl-card on-the-road-again mdl-cell mdl-cell--12-col">
                 <div class="mdl-card__media mdl-color-text--grey-50">
-                    <h3>{{homeTxt}}</h3>
+                    <h3 id="homeTxt">{{homeTxt}}</h3>
                 </div>
 
                 <div class="loginBox">
-                    <form novalidate="" ng-controller="formController as formCntrl" name="homeForm" ng-submit="formCntrl.submitForm()">
+                    <form novalidate="" name="homeForm" ng-submit="homeCntrl.submitForm()">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo">
                             <input class="mdl-textfield__input" type="text" id="username" name="username" ng-model="auth.username"> <label class="mdl-textfield__label" for="username">Username</label>
                         </div><br>
@@ -104,15 +104,17 @@ new WOW().init();
                             <input class="mdl-textfield__input" type="password" id="pwd" name="pwd" ng-model="auth.password"> <label class="mdl-textfield__label" for="pwd">Password</label>
                         </div><br>
 
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo" ng-show="formCntrl.register">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo" ng-show="register">
                             <input class="mdl-textfield__input" type="password" id="cpwd" name="cpwd"> <label class="mdl-textfield__label" for="cpwd">Confirm Password</label>
                         </div><br>
-                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" name="submit" type="submit" form="homeForm" value="{{status}}" ng-click="formCntrl.submitForm()">{{status}}</button><br>
+                        <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
+
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" name="submit" type="submit" form="homeForm" value="{{status}}" ng-click="homeCntrl.submitForm()">{{status}}</button><br>
                         <br>
 
-                        <p ng-show="formCntrl.register">Already have an account? Login <a href="#" ng-click="formCntrl.register = false; homeCntrl.loginOn()">here</a>.</p>
+                        <p ng-show="register">Already have an account? Login <a href="#" ng-click="homeCntrl.loginOn()">here</a>.</p>
 
-                        <p ng-hide="formCntrl.register">No account? Register <a href="#" ng-click="formCntrl.register = true; homeCntrl.registerOn()">here</a>.</p>
+                        <p ng-hide="register">No account? Register <a href="#" ng-click="homeCntrl.registerOn()">here</a>.</p>
                     </form>
                 </div>
             </div>

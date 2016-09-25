@@ -51,11 +51,6 @@ new WOW().init();
 </script>
 <script src="/socket.io/socket.io.js"></script>
 
-<script>
-$(document).ready ( function(){
-    socket.emit("registerMacListener","testmac");
-});​
-</script>
 
     <style>
     #view-source {
@@ -131,35 +126,35 @@ $(document).ready ( function(){
 	          <h3 class="dashTitle">STORAGE</h3>
             	<div class="mdl-cell--3-col storageChart">
 	              <canvas id="doughnut" class="chart chart-doughnut"
-					  chart-data="data" chart-labels="labels" colours="colours">
+					  chart-data="data0" chart-labels="labels" colours="colours">
 					</canvas> 
 					<br>
-					<p>C:/</p>
-					<p>Capacity: {{total}} GB</p>
+					<p>{{mtpoint0}}</p>
+					<p>{{total0}}</p>
             	</div>
             	<div class="mdl-cell--3-col storageChart">
 	              <canvas id="doughnut" class="chart chart-doughnut"
-					  chart-data="data" chart-labels="labels">
+					  chart-data="data1" chart-labels="labels">
 					</canvas> 
 					<br>
-					<p>D:/</p>
-					<p>Capacity: {{total}} GB</p>
+					<p>{{mtpoint1}}</p>
+					<p>{{total1}}</p>
             	</div>
             	<div class="mdl-cell--3-col storageChart">
 	              <canvas id="doughnut" class="chart chart-doughnut"
-					  chart-data="data" chart-labels="labels">
+					  chart-data="data2" chart-labels="labels">
 					</canvas> 
 					<br>
-					<p>E:/</p>
-					<p>Capacity: {{total}} GB</p>
+					<p>{{mtpoint2}}</p>
+					<p>{{total2}}</p>
             	</div>
             	<div class="mdl-cell--3-col storageChart">
 	              <canvas id="doughnut" class="chart chart-doughnut"
-					  chart-data="data" chart-labels="labels">
+					  chart-data="data3" chart-labels="labels">
 					</canvas> 
 					<br>
-					<p>F:/</p>
-					<p>Capacity: {{total}} GB</p>
+					<p>{{mtpoint3}}</p>
+					<p>{{total3}}</p>
             	</div>
             	
 	                       
@@ -275,7 +270,7 @@ $(document).ready ( function(){
           </div>
         </div>
         
-        <div class="mdl-grid demo-content" ng-show="screen==1">
+        <div class="mdl-grid demo-content tManDiv" ng-show="screen==1">
         	<div class="demo-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid sideTitleMargin" ng-controller="TaskCtrl as tskCtrl">
 	          <h3 class="dashTitle">TASK MANAGEMENT</h3>
 			  
@@ -284,7 +279,7 @@ $(document).ready ( function(){
     <span class="mdl-list__item-primary-content">
       <i class="material-icons  mdl-list__item-avatar">settings</i>
 {{process.name}}  |  {{process.memPerc}}% memory</span>
-          <a class="mdl-list__item-secondary-action" href="#"><i class="material-icons" ng-click="delete(process.pid)">delete</i></a>
+          <a class="mdl-list__item-secondary-action" href="#"><i class="material-icons" ng-click="tskCtrl.delete(process.pid)">delete</i></a>
 
   </li>
 </ul>

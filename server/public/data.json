@@ -15,14 +15,32 @@
 		"logpro": 4,
 		"KBsent": 25.329,
 		"cpuName": "Intel(R) Core(TM) i5-6300HQ CPU @ 2.30GHz",
-		"disk0": {
+		"disks" : [
+			{
 			"mtpoint": "C:\\",
 			"usedspace": 214.38,
 			"totspace": 919.281,
 			"device": "C:\\",
 			"fsystem": "NTFS",
 			"freespace": 704.902
-		}
+			},
+			{
+			"mtpoint": "C:\\",
+			"usedspace": 214.38,
+			"totspace": 919.281,
+			"device": "C:\\",
+			"fsystem": "NTFS",
+			"freespace": 704.902
+			},
+			{
+			"mtpoint": "C:\\",
+			"usedspace": 214.38,
+			"totspace": 919.281,
+			"device": "C:\\",
+			"fsystem": "NTFS",
+			"freespace": 704.902
+			}
+		]
 	},
 	{
 		"KBrecv": 9.135,
