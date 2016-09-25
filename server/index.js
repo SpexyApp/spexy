@@ -11,6 +11,7 @@ var io = require('socket.io')(http);
 var socketHandler = require('./socket');
 var bodyParser = require('body-parser');
 var db = require('./db');
+var controls = require('./controls');
 var fs = require("fs");
 var auth = require('./auth');
 var config = require('./config');
@@ -70,9 +71,36 @@ app.post('/sendtasks/:mac', function(req, res) {
   socketHandler.onEventFromDesktop("tasks",parseIncomingJSONFromDesktop(req.body),req.params.mac);
 });
 
+app.get('/getmac', function(req, res){
+  if(req.session.user != null)
+  {
+    db.getCurrentUserId(req,function(userId){
+      if(userId == null)
+      {
+        res.send("error");
+        return;
+      }
+      else {
+        db.where("computers","userId",userId,function(results){
+          if(results != null)
+          {
+            res.send(results[0].mac);
+          }
+          else {
+            res.send("none");
+          }
+        });
+      }
+    });
+  }
+  else {
+    res.send("error");
+  }
+
+});
+
 function parseIncomingJSONFromDesktop(rawjson)
 {
-  console.log("JSON Payload");
   var innerJSON = rawjson.json_payload;
   return innerJSON;
 }
@@ -88,6 +116,7 @@ app.get('/getpcs', function(req, res){
 app.get('/css/:file', function (req, res) { sendFolder("css",req,res); });
 app.get('/images/:file', function (req, res) { sendFolder("images",req,res); });
 app.get('/js/:file', function (req, res) { sendFolder("js",req,res); });
+app.get('/files/:file', function (req, res) { sendFolder("files",req,res); });
 
 function sendFolder(folder,req,res)
 {
@@ -124,6 +153,21 @@ app.get('/pcauth/:username/:password/:mac/:title', function(req, res) {
   auth.authenticateComputer(username,password,title,mac,function(msg){
     res.send(msg);
   });
+});
+
+app.get('/command/:mac', function(req, res){
+  var cmdInfo = controls.command;
+  controls.getCommand(req.params.mac,res);
+});
+
+app.post('/sendcommand/:mac', function(req, res){
+  controls.cmd(req.body.command);
+  res.send("true");
+});
+
+app.post('/sendkill/:mac', function(req, res){
+  console.log(req.body);
+  controls.kill(req.body.pid,req.params.mac,res);
 });
 
 app.post('/auth', function(req, res) {

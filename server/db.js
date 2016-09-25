@@ -8,6 +8,9 @@ module.exports.checkExists = checkExists;
 module.exports.insert = insert;
 module.exports.where = where;
 module.exports.selectAll = selectAll;
+module.exports.getUserId = getUserId;
+module.exports.getCurrentUserId = getCurrentUserId;
+module.exports.deleteRows = deleteRows;
 
 var connection;
 
@@ -66,6 +69,16 @@ function replace(table,data,successCallback,failCallback)
   });
 }
 
+function deleteRows(table,key,value,doneCallback)
+{
+  var queryString = "DELETE FROM " + table + " WHERE " + key + " = " + connection.escape(value);
+  connection.query(queryString, function(err, rows, fields) {
+    if (err) throw err;
+    console.log(JSON.stringify(rows));
+    doneCallback();
+  });
+}
+
 function where(table,key,value,resultCallback)
 {
   var queryString = "SELECT * FROM " + table + " WHERE " + key + " = " + connection.escape(value);
@@ -82,6 +95,27 @@ function where(table,key,value,resultCallback)
     }
   });
 
+}
+
+function getUserId(username,resultCallback)
+{
+  where("users","username",username,function(results){
+    if(results != null)
+    {
+      var userRow = results[0];
+      resultCallback(userRow.id);
+    }
+    else {
+      resultCallback(null);
+    }
+  });
+}
+
+function getCurrentUserId(req,resultCallback)
+{
+  getUserId(req.session.user,function(result){
+    resultCallback(result);
+  })
 }
 
 function selectAll(table,resultCallback)
