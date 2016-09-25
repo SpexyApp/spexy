@@ -2,6 +2,7 @@ package com.combined;
 
 import JavaUI.HTTPDownloadutility;
 import org.apache.commons.io.FileUtils;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +11,9 @@ import java.io.*;
 import java.net.*;
 import java.net.ProtocolException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -19,8 +23,7 @@ import java.io.IOException;
 /**
  * Created by Utkarsh on 9/24/2016.
  */
-public class UI extends JFrame
-{
+public class UI extends JFrame {
     private JButton signin;
     private JPanel panel;
     private JTextField userCompName;
@@ -37,42 +40,37 @@ public class UI extends JFrame
     //String userid - email
     //String userPassword - password
     //String userpcname - pcname
-    public UI()
-    {
-        signin.addActionListener(new ActionListener()
-        {
+    public UI() {
+        signin.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
                 userid = userID.getText();
                 userPassword = userPass.getText();
                 userpcname = userCompName.getText();
                 InetAddress ip;
-                try
-                {
+                try {
                     ip = InetAddress.getLocalHost();
                     NetworkInterface network = NetworkInterface.getByInetAddress(ip);
                     byte[] mac = network.getHardwareAddress();
                     StringBuilder sb = new StringBuilder();
-                    for (int i = 0; i < mac.length; i++)
-                    {
+                    for (int i = 0; i < mac.length; i++) {
                         sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
                     }
                     usermac = sb.toString();
                     //Establishing the connection
                     URL url = new URL("http://nisarg.me:1337/pcauth");
                     URLConnection con = url.openConnection();
-                    HttpURLConnection http = (HttpURLConnection)con;
+                    HttpURLConnection http = (HttpURLConnection) con;
                     http.setRequestMethod("POST"); // PUT is another valid option
                     http.setDoOutput(true);
 
-                    Map<String,String> arguments = new HashMap<>();
+                    Map<String, String> arguments = new HashMap<>();
                     arguments.put("username", userid);
                     arguments.put("password", userPassword);
                     arguments.put("mac", usermac);
                     arguments.put("title", userpcname);
                     StringJoiner sj = new StringJoiner("&");
-                    for(Map.Entry<String,String> entry : arguments.entrySet())
+                    for (Map.Entry<String, String> entry : arguments.entrySet())
                         sj.add(URLEncoder.encode(entry.getKey(), "UTF-8") + "="
                                 + URLEncoder.encode(entry.getValue(), "UTF-8"));
                     byte[] out = sj.toString().getBytes(StandardCharsets.UTF_8);
@@ -94,14 +92,10 @@ public class UI extends JFrame
                     URL get = new URL("http://nisarg.me:1337/pcauth/" + userid + "/" + userPassword + "/" + usermac + "/" + userpcname);
                     BufferedReader in = new BufferedReader(new InputStreamReader(get.openStream()));
                     String inputLine;
-                    while((inputLine = in.readLine()) != null)
-                    {
-                        if(inputLine.equals("false"))
-                        {
+                    while ((inputLine = in.readLine()) != null) {
+                        if (inputLine.equals("false")) {
                             JOptionPane.showMessageDialog(null, "There seems to be something wrong with the data you entered. Try again");
-                        }
-                        else
-                        {
+                        } else {
                             //File downloads = new File("C://Program Files");
                            /* System.out.println("catch1");
                             URL urlurl = new URL("https://github.com/SpexyApp/spexy/tree/master/spexy");
@@ -115,22 +109,23 @@ public class UI extends JFrame
                             System.out.println("catch5");
                             **/
                             String fileURL = "https://github.com/SpexyApp/spexy/tree/master/spexy";
-                            String saveDir = "C://Program Files";
-                            try {
-                                HTTPDownloadutility.downloadFile(fileURL, saveDir);
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
+                            final Path p = Paths.get("C://Program Files//Test");
+                            if (p.toFile().mkdirs()){
+                                try {
+                                    HTTPDownloadutility.downloadFile(fileURL, p.toAbsolutePath().toString());
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                                
+                            } else {
+                                throw new RuntimeException("Error");
                             }
                         }
                     }
                     in.close();
-                }
-                catch (UnknownHostException e1)
-                {
+                } catch (UnknownHostException e1) {
                     e1.printStackTrace();
-                }
-                catch(SocketException e1)
-                {
+                } catch (SocketException e1) {
                     e1.printStackTrace();
                 } catch (UnsupportedEncodingException e1) {
                     e1.printStackTrace();
@@ -145,18 +140,15 @@ public class UI extends JFrame
         });
         panel.addComponentListener(new ComponentAdapter() {
         });
-        cancelButton.addActionListener(new ActionListener()
-        {
+        cancelButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
+            public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
         });
     }
 
-    public static void main(String args[]) throws IOException
-    {
+    public static void main(String args[]) throws IOException {
         //initializing jframe
         JFrame UI = new JFrame("App");
         UI.setContentPane(new UI().panel);
