@@ -57,3 +57,24 @@
 .tag h3{
 	font-family: 'Raleway', sans-serif;
 }
+
+.mdl-layout__drawer .mdl-navigation .mdl-navigation__link:hover {
+    color: rgba(100, 100, 100, 0.56);
+}
+
+.mdl-data-table__cell--non-numeric{
+	text-align: center !important;
+}
+
+.demo-list-control {
+  width: 300px;
+}
+
+.demo-list-radio {
+  display: inline;
+}
+
+.navActive {
+	color: rgba(100, 100, 100, 0.56) !important;
+    background-color: #e0e0e0;
+}
